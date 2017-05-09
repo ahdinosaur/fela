@@ -13,14 +13,20 @@ export default function connectFactory(
 
         render() {
           const { renderer, theme = {} } = this.context
-          const styleProps = { ...this.props, theme }
+          const styleProps = {
+            ...this.props,
+            theme
+          }
 
           const styles = Object.keys(rules).reduce((sofar, key) => {
             const style = renderer.renderRule(rules[key], styleProps)
             return Object.assign(sofar, { [key]: style })
           }, {})
 
-          const props = { ...this.props, styles }
+          const props = {
+            ...this.props,
+            styles
+          }
           return createElement(component, props)
         }
       }

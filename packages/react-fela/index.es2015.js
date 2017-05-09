@@ -914,7 +914,7 @@ function generateDisplayName(component) {
 }
 
 function connectFactory(BaseComponent, createElement, contextTypes) {
-  return function connect(mapStylesToProps) {
+  return function connect(rules) {
     return function (component) {
       var EnhancedComponent = function (_BaseComponent) {
         babelHelpers.inherits(EnhancedComponent, _BaseComponent);
@@ -929,16 +929,22 @@ function connectFactory(BaseComponent, createElement, contextTypes) {
           value: function render() {
             var _context = this.context,
                 renderer = _context.renderer,
-                theme = _context.theme;
+                _context$theme = _context.theme,
+                theme = _context$theme === undefined ? {} : _context$theme;
 
+            var styleProps = babelHelpers.extends({}, this.props, {
+              theme: theme
+            });
 
-            var styles = mapStylesToProps(babelHelpers.extends({}, this.props, {
-              theme: theme || {}
-            }))(renderer);
+            var styles = Object.keys(rules).reduce(function (sofar, key) {
+              var style = renderer.renderRule(rules[key], styleProps);
+              return Object.assign(sofar, babelHelpers.defineProperty({}, key, style));
+            }, {});
 
-            return createElement(component, babelHelpers.extends({}, this.props, {
+            var props = babelHelpers.extends({}, this.props, {
               styles: styles
-            }));
+            });
+            return createElement(component, props);
           }
         }]);
         return EnhancedComponent;

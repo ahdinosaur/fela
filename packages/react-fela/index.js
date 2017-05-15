@@ -1,1 +1,1 @@
-module.exports = require('fela/lib/bindings/react/index')
+module.exports = require('@ahdinosaur/fela/lib/bindings/react/index')

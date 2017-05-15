@@ -1,5 +1,5 @@
 {
-  "name": "fela",
+  "name": "@ahdinosaur/fela",
   "version": "4.3.5",
   "description": "Universal, Dynamic & High-Performance Styling in JavaScript",
   "module": "index.es2015.js",
